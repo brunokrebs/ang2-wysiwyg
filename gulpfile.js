@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var ts = require('gulp-typescript');
 var webserver = require('gulp-webserver');
 
-gulp.task('develop', function () {
+gulp.task('transpile-ts', function () {
 	return gulp.src('src/**/*.ts')
 		.pipe(ts({
 			target: 'ES5',
@@ -17,7 +17,7 @@ gulp.task('develop', function () {
 		.pipe(gulp.dest('development'));
 });
 
-gulp.task('webserver', function() {
-	gulp.src('development')
-		.pipe(webserver());
+gulp.task('develop', ['transpile-ts'], function () {
+	gulp.watch(['src/**/*.ts'], ['transpile-ts']);
+	gulp.src('development').pipe(webserver());
 });
